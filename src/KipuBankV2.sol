@@ -133,13 +133,11 @@ contract KipuBank is Ownable, ReentrancyGuard {
         emit FeedSet(address(_oracle), block.timestamp);
     }
 
-    /**
-     * @notice Allows reception of native Ether (ETH) sent without specifying a function.
-     * @dev Forwards execution to `depositEther()` to enforce security checks (BANKCAP, oracle conversion)
-     * and correct accounting via the multi-token mapping.
-     */
+    /*
+        @notice Allows reception of native Ether (ETH) sent without specifying a function.
+        @dev Forwards execution to `depositEther()` to enforce security checks (BANKCAP, oracle conversion) and correct accounting via the multi-token mapping.
+    */
     receive() external payable {
-        // Al reenviar a depositEther(), garantizamos que se aplique la lógica de negocio (oracle, bankcap).
         depositEther();
     }
 
