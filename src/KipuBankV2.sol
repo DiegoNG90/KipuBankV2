@@ -156,28 +156,6 @@ contract KipuBank is Ownable, ReentrancyGuard {
     }
 
     /*
-        @notice depositEther function allows any user to deposit native Ether (ETH) into their account balance.
-        @dev The value sent (`msg.value`) is converted to USD (6 decimals) using the Chainlink Oracle.
-        The transaction reverts if the deposit amount causes the total deposits to exceed the `BANKCAP`
-        or if the sent ETH amount is zero. Uses `address(0)` as the token address key in the `balances` mapping.
-        This function follows the Checks-Effects-Interactions (CEI) pattern to ensure security.
-        Emits a `SuccessfulEtherDeposit` event upon successful deposit.
-    */
-    function depositEther() external payable {
-        if (msg.value <= 0) revert InvalidAmount();
-
-        uint256 usdValue = _getETHToUSD(msg.value);
-
-        if (totalDepositsInUSD + usdValue > BANKCAP) revert BankCapReached();
-
-        incrementDepositsOperations();
-        incrementDepositsInUSD(usdValue);
-        balances[msg.sender][address(0)] += msg.value;
-
-        emit SuccessfulEtherDeposit(msg.sender, msg.value);
-    }
-
-    /*
         @notice depositToken function allows any user to deposit the supported ERC-20 token (USDC) into their account balance.
         @param _tokenAddress address input type is the address of the ERC-20 token being deposited. Must be USDC.
         @param _amount uint256 input type is the amount of tokens (with 6 decimals) to deposit.
@@ -249,6 +227,29 @@ contract KipuBank is Ownable, ReentrancyGuard {
         if (!success) revert TokenTransferFailed();
 
         emit SuccessfulTokenWithdrawal(msg.sender, _tokenAddress, _amount);
+    }
+
+
+    /*
+        @notice depositEther function allows any user to deposit native Ether (ETH) into their account balance.
+        @dev The value sent (`msg.value`) is converted to USD (6 decimals) using the Chainlink Oracle.
+        The transaction reverts if the deposit amount causes the total deposits to exceed the `BANKCAP`
+        or if the sent ETH amount is zero. Uses `address(0)` as the token address key in the `balances` mapping.
+        This function follows the Checks-Effects-Interactions (CEI) pattern to ensure security.
+        Emits a `SuccessfulEtherDeposit` event upon successful deposit.
+    */
+    function depositEther() public payable {
+        if (msg.value <= 0) revert InvalidAmount();
+
+        uint256 usdValue = _getETHToUSD(msg.value);
+
+        if (totalDepositsInUSD + usdValue > BANKCAP) revert BankCapReached();
+
+        incrementDepositsOperations();
+        incrementDepositsInUSD(usdValue);
+        balances[msg.sender][address(0)] += msg.value;
+
+        emit SuccessfulEtherDeposit(msg.sender, msg.value);
     }
 
 
