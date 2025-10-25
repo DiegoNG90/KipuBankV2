@@ -49,9 +49,15 @@ The contract must be deployed on the **Sepolia Testnet**. The constructor requir
 
 ### Address of Deployed Contract (Post-Verification)
 
-| Network             | Contract Address                       | Verified Etherscan Link                     |
-| :------------------ | :------------------------------------- | :------------------------------------------ |
-| **Sepolia Testnet** | `[INSERT FINAL DEPLOYED ADDRESS HERE]` | `[INSERT Etherscan Verification Link HERE]` |
+| Network             | Contract Address                             | Verified Etherscan Link                                                                |
+| :------------------ | :------------------------------------------- | :------------------------------------------------------------------------------------- |
+| **Sepolia Testnet** | `0x0d3f8D50DA1D9da68152392795Eb3BfF40a80AB7` | `https://sepolia.etherscan.io/address/0x0d3f8D50DA1D9da68152392795Eb3BfF40a80AB7#code` |
+
+### BankCap and Maximum withdrawal per transaction
+
+The deployed contract has been deployed with the following immutable limits:
+\_bankCap 1000000000000
+\_maxWithdrawalInUSD 10000000000
 
 ---
 
